@@ -15,7 +15,8 @@ We will add details as the project goes on.
 
 ## To-Do List
 - [x] Creating a working Sitemap Generator Class
-- [ ] Creating a HTML file reader Class, that gathers indexation terms
-- [ ] Creating a Main for the console version
+- [x] Creating a HTML file reader Class, that gathers indexation terms
+- [ ] Creating a File Matcher Class, that matches the search terms with the file(s)
+- [ ] Creating a Main for the console version (50%)
 - [ ] Creating a Main for the GUI version
 - [ ] Finding wonderful visuals to decorate our GUI
