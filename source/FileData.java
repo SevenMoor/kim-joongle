@@ -1,7 +1,9 @@
 package source;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -74,8 +76,20 @@ public class FileData {
 		return location;
 	}
 
+	public void save(BufferedWriter writer) throws IOException{
+		writer.write("<file location=\""+location+"\">\n");
+		for(String keyword : keywords){
+			writer.write("\t<keyword>"+keyword+"</keyword>\n");
+		}
+		writer.write("</file>");
+	}
+	
 	@Override
 	public String toString() {
-		return "FileData[date=" + date + ",keywords=" + keywords + ", location=" + location + "]";
+		String result = "Result [date=" + date + ", location=" + location + "]";
+		for(String keyword : keywords){
+			result+="\n\t->"+keyword;
+		}
+		return result;
 	}
 }
