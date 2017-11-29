@@ -14,6 +14,10 @@ public class SitemapGenerator {
 	public void iterate(String currentDirectory, BufferedWriter writer) throws IOException{
 		SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 		File currentFile = new File(currentDirectory);
+		
+		/*if the current file is a directory, we list its content, iterate through it, and for each child element,
+		we check if it is a directory or a file. If it's the latter we add an entry to the sitemap, else go trough
+		this function one level deeper.*/
 		if(currentFile.isDirectory()){
 			String[] content = currentFile.list();
 			for(int i=0;i<content.length;i++){
