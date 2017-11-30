@@ -61,8 +61,8 @@ public class FileData {
 					int inTag = 0;
 					
 					for(int i=0;i<weed.length;i++){
-						if(weed[i]=="<"&&inTag==0) inTag = 1;
-						if(weed[i]==">"&&inTag==1) inTag = 0;
+						if(weed[i]=='<'&&inTag==0) inTag = 1;
+						if(weed[i]=='>'&&inTag==1) inTag = 0;
 						
 						if(inTag==0) weededGroup += weed[i];
 					}
