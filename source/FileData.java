@@ -35,18 +35,43 @@ public class FileData {
 			while (matcher.find()) {
 				//First process the h1 matches
 				String codeGroup = matcher.group(2);
+				
 				if (codeGroup != null) {
-					String[] keys = codeGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'|<br />|&"); //Split according to these characters
-					for (String key : keys)
-						keywords.add(key);
+					codeGroup = codeGroup.toLowerCase();
+					codeGroup = codeGroup.replaceAll("<(/)?(.*?)>","");
+					codeGroup = codeGroup.replaceAll("&agrave;","à");
+					codeGroup = codeGroup.replaceAll("&eacute;","é");
+					codeGroup = codeGroup.replaceAll("&egrave;","è");
+					codeGroup = codeGroup.replaceAll("&ecirc;","ê");
+					codeGroup = codeGroup.replaceAll("&euml;","ë");
+					codeGroup = codeGroup.replaceAll("&iuml;","ï");
+					codeGroup = codeGroup.replaceAll("&icirc;","î");	
+					codeGroup = codeGroup.replaceAll("&ucirc;","û");
+					codeGroup = codeGroup.replaceAll("&ocirc;","ô");
+					codeGroup = codeGroup.replaceAll("&nbsp;"," ");
+					codeGroup = codeGroup.replaceAll("&"," ");
+					
+					keywords.add(codeGroup);
 				}
 				
 				//Then the title matches
 				codeGroup = matcher.group(3);
 				if (codeGroup != null) {
-					String[] keys = codeGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'|<br />|&");
-					for (String key : keys)
-						keywords.add(key);
+					codeGroup = codeGroup.toLowerCase();
+					codeGroup = codeGroup.replaceAll("(<(/)?(.*?)>)","");
+					codeGroup = codeGroup.replaceAll("&agrave;","à");
+					codeGroup = codeGroup.replaceAll("&eacute;","é");
+					codeGroup = codeGroup.replaceAll("&egrave;","è");
+					codeGroup = codeGroup.replaceAll("&ecirc;","ê");
+					codeGroup = codeGroup.replaceAll("&euml;","ë");
+					codeGroup = codeGroup.replaceAll("&iuml;","ï");
+					codeGroup = codeGroup.replaceAll("&icirc;","î");	
+					codeGroup = codeGroup.replaceAll("&ucirc;","û");
+					codeGroup = codeGroup.replaceAll("&ocirc;","ô");
+					codeGroup = codeGroup.replaceAll("&nbsp;"," ");
+					codeGroup = codeGroup.replaceAll("&"," ");
+					
+					keywords.add(codeGroup);
 				}
 				
 				//And remove empty entries
@@ -76,11 +101,11 @@ public class FileData {
 	}
 
 	public void save(BufferedWriter writer) throws IOException{
-		writer.write("<file location=\""+location+"\">\n");
+		writer.write("\t\t<file location=\""+location+"\">\n");
 		for(String keyword : keywords){
-			writer.write("\t<keyword>"+keyword+"</keyword>\n");
+			writer.write("\t\t\t<keyword>"+keyword+"</keyword>\n");
 		}
-		writer.write("</file>");
+		writer.write("\t\t</file>\n");
 	}
 	
 	@Override
