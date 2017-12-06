@@ -3,7 +3,6 @@ package source;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -37,18 +36,7 @@ public class FileData {
 				//First process the h1 matches
 				String codeGroup = matcher.group(2);
 				if (codeGroup != null) {
-					char[] weed = codeGroup.toCharArray();
-					String weededGroup = new String();
-					int inTag = 0;
-					
-					for(int i=0;i<weed.length;i++){
-						if(weed[i]=="<"&&inTag==0) inTag = 1;
-						if(weed[i]==">"&&inTag==1) inTag = 0;
-						
-						if(inTag==0) weededGroup += weed[i];
-					}
-					
-					String[] keys = weededGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'"); //Split according to these characters
+					String[] keys = codeGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'|<br />|&"); //Split according to these characters
 					for (String key : keys)
 						keywords.add(key);
 				}
@@ -56,18 +44,7 @@ public class FileData {
 				//Then the title matches
 				codeGroup = matcher.group(3);
 				if (codeGroup != null) {
-					char[] weed = codeGroup.toCharArray();
-					String weededGroup = new String();
-					int inTag = 0;
-					
-					for(int i=0;i<weed.length;i++){
-						if(weed[i]=='<'&&inTag==0) inTag = 1;
-						if(weed[i]=='>'&&inTag==1) inTag = 0;
-						
-						if(inTag==0) weededGroup += weed[i];
-					}
-					
-					String[] keys = weededGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'");
+					String[] keys = codeGroup.split(" |&nbsp;|:|\"|-|\\(|\\)|\\?|!|\\.|\\n|\\t|;|,|\'|<br />|&");
 					for (String key : keys)
 						keywords.add(key);
 				}
