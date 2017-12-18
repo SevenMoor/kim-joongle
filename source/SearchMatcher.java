@@ -15,15 +15,25 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 
-public class SearchMatcher extends FileData {
-	private ArrayList<String> location = new ArrayList<String>();
+public class SearchMatcher {
+	private ArrayList<String> matches = new ArrayList<String>();
+	private ArrayList<String> searchWords = new ArrayList<String>();
 
-	public SearchMatcher(File currentFile) {
-		super(currentFile);
-
+	public SearchMatcher(){}
+	
+	public void splitSearchWords(String search){
+		String[] temporary = search.split(" ");
+		for(String word : temporary) {
+			searchWords.add(word);
+		}
+	}
+	
+	public void clearSearchWords() {
+		searchWords.clear();
+		matches.clear();
 	}
 
-	public void browseFile(String searchWord, String fileName) throws IOException, ClassNotFoundException {
+	public void matchKeywords(String fileName) throws IOException, ClassNotFoundException {
 
 		DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance(); 
 		try {
@@ -37,18 +47,21 @@ public class SearchMatcher extends FileData {
 			for (int temp = 0; temp < fileNodeList.getLength(); temp++) {
 				Node fileNode = fileNodeList.item(temp);
 				Element fileElement = (Element) fileNode;
-				if (fileElement.getTextContent().contains(searchWord.toLowerCase())) {
-					//System.out.println(fileElement.getElementsByTagName("location").item(0).getTextContent());
-					location.add(fileElement.getElementsByTagName("location").item(0).getTextContent()); 
+				for(String word : searchWords) {
+					if ((fileElement.getTextContent().contains(word.toLowerCase()))&&!(matches.contains(fileElement.getElementsByTagName("location").item(0).getTextContent()))){
+						matches.add(fileElement.getElementsByTagName("location").item(0).getTextContent()); 
+					}
 				}
-			}
-			for(String loc : location) System.out.println(loc); 
-			
-			
-		}catch(ParserConfigurationException | SAXException e) {
-			e.printStackTrace();
-		}
-		
+			}		
+		}catch(ParserConfigurationException e) {
+			System.err.println(e.getMessage());
+		} catch (SAXException e) {
+			System.err.println(e.getMessage());
+		}	
+	}
+	
+	public ArrayList<String> getMatches(){
+		return matches;
 	}
 	
 }
