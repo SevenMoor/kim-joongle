@@ -1,12 +1,16 @@
 package program;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import exception.IncorrectDirectoryException;
 
 import source.BrowseFile;
+import source.FileData;
+import source.SearchMatcher;
 import source.SitemapGenerator;
 
 public class KimConsole {
@@ -70,7 +74,25 @@ public class KimConsole {
 						search+=args[i+3]+" ";
 					}
 					if(args.length==3) System.err.println("You look to have censored yourself... You didn't search for anything!");
-					else System.err.println("Sorry! The government doesn't allow to search for "+search+"yet!");
+					else{
+						SearchMatcher matcher = new SearchMatcher();
+						try {
+							
+							matcher.splitSearchWords(search);
+							matcher.matchKeywords("keywords.xml");
+							ArrayList<String> matches = matcher.getMatches();
+							ArrayList<FileData> results = new ArrayList<FileData>();
+							for(String match : matches){
+								results.add(new FileData(new File(match)));
+							}
+							for(FileData result : results) System.out.println(result.toString());
+							
+						} catch (ClassNotFoundException e) {
+							System.err.println(e.getMessage());
+						} catch (IOException e) {
+							System.err.println(e.getMessage());
+						}
+					}
 				}
 		}
 	}
