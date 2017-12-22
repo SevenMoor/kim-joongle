@@ -145,7 +145,7 @@ public class menuEvent extends Application {
              
             String text;
             while ((text = bufferedReader.readLine()) != null) {
-                stringBuffer.append(text);
+               	stringBuffer.append(text+"\n");
             }
  
         } catch (FileNotFoundException ex) {
