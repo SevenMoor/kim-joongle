@@ -40,7 +40,7 @@ public class menuEvent extends Application {
          
          
         final TextArea textArea = TextAreaBuilder.create()
-                .prefWidth(400)
+                .prefWidth(600)
                 .wrapText(true)
                 .build();
          
@@ -72,6 +72,7 @@ public class menuEvent extends Application {
         // Set Accelerator for Exit MenuItem.
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+W"));
         xmlOpen.setAccelerator(KeyCombination.keyCombination("Ctrl+X"));
+        readMe.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
  
         // When user click on the Exit item.
         exitItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -126,7 +127,6 @@ public class menuEvent extends Application {
         
         BorderPane root1 = new BorderPane();
         root1.setTop(menuBar);
-        @SuppressWarnings("deprecation")
 		VBox vBox = VBoxBuilder.create()
                 .children(menuBar, scrollPane)
                 .build();
