@@ -27,57 +27,57 @@ public class FileData {
 		BufferedReader reader = new BufferedReader(new FileReader(file));
 		String line = null;
 		while ((line = reader.readLine()) != null) {
-			
-			//If we encounter a h1 or title tag...
+
+			// If we encounter a h1 or title tag...
 			Pattern title = Pattern.compile("(<h1>(.*?)</h1>|<title>(.*?)</title>)", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = title.matcher(line);
-			
+
 			while (matcher.find()) {
-				//First process the h1 matches
+				// First process the h1 matches
 				String codeGroup = matcher.group(2);
-				
+
 				if (codeGroup != null) {
 					codeGroup = codeGroup.toLowerCase();
-					codeGroup = codeGroup.replaceAll("<(/)?(.*?)>","");
-					codeGroup = codeGroup.replaceAll("&agrave;","à");
-					codeGroup = codeGroup.replaceAll("&eacute;","é");
-					codeGroup = codeGroup.replaceAll("&egrave;","è");
-					codeGroup = codeGroup.replaceAll("&ecirc;","ê");
-					codeGroup = codeGroup.replaceAll("&euml;","ë");
-					codeGroup = codeGroup.replaceAll("&iuml;","ï");
-					codeGroup = codeGroup.replaceAll("&icirc;","î");	
-					codeGroup = codeGroup.replaceAll("&ucirc;","û");
-					codeGroup = codeGroup.replaceAll("&ocirc;","ô");
-					codeGroup = codeGroup.replaceAll("&nbsp;"," ");
-					codeGroup = codeGroup.replaceAll("&"," ");
-					
+					codeGroup = codeGroup.replaceAll("<(/)?(.*?)>", "");
+					codeGroup = codeGroup.replaceAll("&agrave;", "à");
+					codeGroup = codeGroup.replaceAll("&eacute;", "é");
+					codeGroup = codeGroup.replaceAll("&egrave;", "è");
+					codeGroup = codeGroup.replaceAll("&ecirc;", "ê");
+					codeGroup = codeGroup.replaceAll("&euml;", "ë");
+					codeGroup = codeGroup.replaceAll("&iuml;", "ï");
+					codeGroup = codeGroup.replaceAll("&icirc;", "î");
+					codeGroup = codeGroup.replaceAll("&ucirc;", "û");
+					codeGroup = codeGroup.replaceAll("&ocirc;", "ô");
+					codeGroup = codeGroup.replaceAll("&nbsp;", " ");
+					codeGroup = codeGroup.replaceAll("&", " ");
+
 					keywords.add(codeGroup);
 				}
-				
-				//Then the title matches
+
+				// Then the title matches
 				codeGroup = matcher.group(3);
 				if (codeGroup != null) {
 					codeGroup = codeGroup.toLowerCase();
-					codeGroup = codeGroup.replaceAll("(<(/)?(.*?)>)","");
-					codeGroup = codeGroup.replaceAll("&agrave;","à");
-					codeGroup = codeGroup.replaceAll("&eacute;","é");
-					codeGroup = codeGroup.replaceAll("&egrave;","è");
-					codeGroup = codeGroup.replaceAll("&ecirc;","ê");
-					codeGroup = codeGroup.replaceAll("&euml;","ë");
-					codeGroup = codeGroup.replaceAll("&iuml;","ï");
-					codeGroup = codeGroup.replaceAll("&icirc;","î");	
-					codeGroup = codeGroup.replaceAll("&ucirc;","û");
-					codeGroup = codeGroup.replaceAll("&ocirc;","ô");
-					codeGroup = codeGroup.replaceAll("&nbsp;"," ");
-					codeGroup = codeGroup.replaceAll("&"," ");
-					
+					codeGroup = codeGroup.replaceAll("(<(/)?(.*?)>)", "");
+					codeGroup = codeGroup.replaceAll("&agrave;", "à");
+					codeGroup = codeGroup.replaceAll("&eacute;", "é");
+					codeGroup = codeGroup.replaceAll("&egrave;", "è");
+					codeGroup = codeGroup.replaceAll("&ecirc;", "ê");
+					codeGroup = codeGroup.replaceAll("&euml;", "ë");
+					codeGroup = codeGroup.replaceAll("&iuml;", "ï");
+					codeGroup = codeGroup.replaceAll("&icirc;", "î");
+					codeGroup = codeGroup.replaceAll("&ucirc;", "û");
+					codeGroup = codeGroup.replaceAll("&ocirc;", "ô");
+					codeGroup = codeGroup.replaceAll("&nbsp;", " ");
+					codeGroup = codeGroup.replaceAll("&", " ");
+
 					keywords.add(codeGroup);
 				}
-				
-				//And remove empty entries
+
+				// And remove empty entries
 				String empty = new String();
 				for (int i = 0; i < keywords.size(); i++) {
-					if (keywords.get(i).equals(empty)){
+					if (keywords.get(i).equals(empty)) {
 						keywords.remove(i);
 						i--;
 					}
@@ -100,19 +100,20 @@ public class FileData {
 		return location;
 	}
 
-	public void save(BufferedWriter writer) throws IOException{
-		writer.write("\t\t<file location=\""+location+"\">\n");
-		for(String keyword : keywords){
-			writer.write("\t\t\t<keyword>"+keyword+"</keyword>\n");
+	public void save(BufferedWriter writer) throws IOException {
+		writer.write("\t<file>");
+		writer.write("\t<location>" + location + "</location>\n");
+		for (String keyword : keywords) {
+			writer.write("\t\t\t<keyword>" + keyword + "</keyword>\n");
 		}
-		writer.write("\t\t</file>\n");
+		writer.write("\t</file>\n");
 	}
-	
+
 	@Override
 	public String toString() {
-		String result = "Result [date=" + date + ", location=" + location + "]";
-		for(String keyword : keywords){
-			result+="\n\t->"+keyword;
+		String result = "Result : date=" + getDate() + ", location=" + getLocation();
+		for (String keyword : keywords) {
+			result += "\n\t->" + keyword;
 		}
 		return result;
 	}
