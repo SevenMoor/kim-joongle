@@ -44,7 +44,7 @@ public class SitemapGenerator {
 	public void execute(String currentDirectory) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("sitemap.xml"));
 		writer.write(
-				"<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\t<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
+				"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
 		writer.newLine();
 		iterate(currentDirectory, writer);
 		writer.write("\t</urlset>");
