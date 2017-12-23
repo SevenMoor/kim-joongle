@@ -32,7 +32,7 @@ public class BrowseFile {
 
 	public void execute(String currentDirectory) throws IOException {
 		BufferedWriter writer = new BufferedWriter(new FileWriter("keywords.xml"));
-		writer.write("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n\t<root>\n");
+		writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\t<root>\n");
 		iterate(currentDirectory, writer);
 		writer.write("\t</root>");
 		writer.close();
