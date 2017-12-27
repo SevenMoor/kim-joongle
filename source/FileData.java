@@ -111,7 +111,7 @@ public class FileData {
 
 	@Override
 	public String toString() {
-		String result = "Result : date=" + getDate() + ", location=" + getLocation();
+		String result = "LastMod :" + getDate() + "\nLocation :" + getLocation();
 		for (String keyword : keywords) {
 			result += "\n\t->" + keyword;
 		}
