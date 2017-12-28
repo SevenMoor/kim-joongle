@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -15,17 +17,18 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -48,21 +51,24 @@ public class KimGraphic extends Application {
 		final Scene scene = new Scene(root, 1200, 600);
 
 		try {
-			logo = new ImageView(new Image(new FileInputStream("kim.png"), 300, 150, true, true));
+			logo = new ImageView(new Image(new FileInputStream("kim.gif"), 300, 150, true, true));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
-		final TextArea textArea = new TextArea();
+		final FlowPane textArea = new FlowPane();
 		final Label searchArea = new Label();
 
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setContent(textArea);
 		scrollPane.setFitToWidth(true);
+		scrollPane.setPannable(true);
 		scrollPane.setMinWidth(1180);
-		scrollPane.setMinHeight(300);
-
+		scrollPane.setMinHeight(320);
+		textArea.setHgap(1180);
+		textArea.setPrefHeight(scrollPane.getHeight());
+		textArea.setPrefWidth(scrollPane.getWidth());
 		// Create the text fields
 		final TextField researchField = new TextField();
 		researchField.setMinWidth(500);
@@ -84,7 +90,28 @@ public class KimGraphic extends Application {
 					}
 					searchArea.setText("\t\t\t\t\t" + researchField.getText().toUpperCase() + " \n");
 					for (FileData result : results) {
-						textArea.appendText("-----------******----------\n" + result + "\n\n");
+						final Hyperlink hyperlink = new Hyperlink(result.getLocation());
+						textArea.getChildren().addAll(new Text("-----------******----------\n" + result));
+						textArea.getChildren().add(hyperlink);
+						textArea.getChildren().add(new Text("\n "));
+						hyperlink.setOnAction(new EventHandler<ActionEvent>() {
+
+							@Override
+							public void handle(ActionEvent event) {
+								
+								textArea.getChildren().add(new Text("file://"+result.getLocation()));
+									try {
+										java.awt.Desktop.getDesktop().browse(new URI("file://"+result.getLocation()));
+									} catch (IOException | URISyntaxException e) {
+										e.printStackTrace();
+									} 
+									
+									
+								
+
+							}
+						});
+
 					}
 
 				} catch (ClassNotFoundException e) {
@@ -101,7 +128,8 @@ public class KimGraphic extends Application {
 		buttonClear.setOnAction(new EventHandler<ActionEvent>() {
 
 			public void handle(ActionEvent event) {
-				textArea.clear();
+				textArea.getChildren().clear();
+				searchArea.setText(null);
 			}
 		});
 
@@ -139,7 +167,7 @@ public class KimGraphic extends Application {
 						sitemap.execute(dir.getAbsolutePath());
 						fileBrowser.execute(dir.getAbsolutePath());
 					} catch (IOException e) {
-						textArea.setText("Data Corrupted by Capitalism!");
+						textArea.getChildren().add(new Text("Data Corrupted by Capitalism!"));
 					}
 				}
 
@@ -174,7 +202,7 @@ public class KimGraphic extends Application {
 				// Show save file dialog
 				File file = fileChooser.showOpenDialog(stage);
 				if (file != null) {
-					textArea.setText(readFile(file));
+					textArea.getChildren().add(new Text(readFile(file)));
 				}
 
 			}
@@ -185,7 +213,7 @@ public class KimGraphic extends Application {
 				File file = new File("README.md");
 
 				if (file != null) {
-					textArea.setText(readFile(file));
+					textArea.getChildren().add(new Text(readFile(file)));
 				}
 
 			}
