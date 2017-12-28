@@ -6,8 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -95,19 +93,13 @@ public class KimGraphic extends Application {
 						textArea.getChildren().add(hyperlink);
 						textArea.getChildren().add(new Text("\n "));
 						hyperlink.setOnAction(new EventHandler<ActionEvent>() {
-
-							@Override
 							public void handle(ActionEvent event) {
-								
-								textArea.getChildren().add(new Text("file://"+result.getLocation()));
-									try {
-										java.awt.Desktop.getDesktop().browse(new URI("file://"+result.getLocation()));
-									} catch (IOException | URISyntaxException e) {
-										e.printStackTrace();
-									} 
-									
-									
-								
+
+								try {
+									new ProcessBuilder(result.getLocation()).start();
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
 
 							}
 						});
