@@ -95,13 +95,14 @@ public class KimGraphic extends Application {
 						hyperlink.setOnAction(new EventHandler<ActionEvent>() {
 							public void handle(ActionEvent event) {
 
+								Runtime runtime = Runtime.getRuntime();
 								try {
-									new ProcessBuilder(result.getLocation()).start();
+									runtime.exec("/usr/bin/firefox " + result.getLocation());
 								} catch (IOException e) {
 									e.printStackTrace();
 								}
-
 							}
+
 						});
 
 					}
